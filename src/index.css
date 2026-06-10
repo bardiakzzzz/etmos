@@ -1,0 +1,24 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; width: 100%; overflow: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: #f7f8fa; color: #111827; }
+
+/* Leaflet overrides */
+.leaflet-container { background: #e8edf2 !important; }
+.leaflet-tile-pane { filter: saturate(0.7) brightness(1.05); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
+
+:root {
+  --sev-0: #16a34a;
+  --sev-1: #65a30d;
+  --sev-2: #ca8a04;
+  --sev-3: #ea580c;
+  --sev-4: #dc2626;
+  --sidebar-w: 340px;
+  --topbar-h: 56px;
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+}
