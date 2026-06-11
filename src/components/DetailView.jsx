@@ -8,9 +8,11 @@ export default function DetailView({ tunnel, onBack }) {
   const [timeIdx, setTimeIdx] = useState(9)
   const [tube, setTube] = useState('right')
 
+  // Distribution changes with both tube and timeIdx so the bars react to the slider
   const defectPct = [18, 24, 35, 14, 9].map((v, i) => {
-    const shift = tube === 'right' ? 0 : 5
-    return Math.max(0, Math.min(100, v + Math.round(Math.sin(tunnel.id + i + shift) * 8)))
+    const tubeShift = tube === 'right' ? 0 : 5
+    const timeShift = Math.round((timeIdx / 9) * (tunnel.trend === 'up' ? 12 : tunnel.trend === 'down' ? -8 : 4) * (i === 4 ? 1.5 : i === 3 ? 1.2 : 0.7))
+    return Math.max(0, Math.min(100, v + Math.round(Math.sin(tunnel.id + i + tubeShift) * 8) + timeShift))
   })
 
   return (
@@ -112,7 +114,7 @@ export default function DetailView({ tunnel, onBack }) {
               <div style={{ fontSize: 11, color: '#6b7280', marginBottom: 4 }}>Prossima ispezione</div>
               <div style={{ fontSize: 13, fontWeight: 600 }}>15 Giu 2026</div>
               <button style={{ marginTop: 8, width: '100%', padding: '6px', background: '#1d4ed8', color: 'white', border: 'none', borderRadius: 6, fontSize: 12, fontFamily: 'DM Sans, sans-serif', cursor: 'pointer', fontWeight: 600 }}>
-                Pianifica manutenzione
+                Pianifica monitoraggio
               </button>
             </div>
           </div>

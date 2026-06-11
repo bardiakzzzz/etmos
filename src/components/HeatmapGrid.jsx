@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { SEV_COLORS, SEV_LABELS, cellFrame, frameSeverity } from '../data'
+import { FRAMES, SEV_COLORS, SEV_LABELS, cellFrame, frameSeverity } from '../data'
 import CellModal from './CellModal'
 
 const SECTIONS = [
@@ -8,6 +8,16 @@ const SECTIONS = [
   { label: 'Parete des.', rows: 3, seed: 20 },
 ]
 const COLS = 60
+const MAX_TIME_IDX = 9
+
+// Returns the frame for a cell at a given time index.
+// timeIdx=9 (Apr 26, the real scan) uses the base frame; earlier months shift backwards.
+function cellFrameAtTime(col, row, timeIdx) {
+  const base = cellFrame(col, row)
+  const baseIdx = FRAMES.indexOf(base)
+  const offset = (timeIdx >= 8) ? 0 : (timeIdx - MAX_TIME_IDX) * 3
+  return FRAMES[(baseIdx + offset + FRAMES.length * 10) % FRAMES.length]
+}
 
 export default function HeatmapGrid({ tunnel, timeIdx }) {
   const [selectedCell, setSelectedCell] = useState(null)
@@ -36,7 +46,7 @@ export default function HeatmapGrid({ tunnel, timeIdx }) {
                   : <div style={{ width: 80, flexShrink: 0 }} />
                 }
                 {Array.from({ length: COLS }).map((_, ci) => {
-                  const frame = cellFrame(ci, ri)
+                  const frame = cellFrameAtTime(ci, ri, timeIdx)
                   const sev = frameSeverity(frame)
                   return (
                     <div key={ci}
@@ -45,7 +55,7 @@ export default function HeatmapGrid({ tunnel, timeIdx }) {
                       style={{
                         flex: 1, height: 14, background: SEV_COLORS[sev],
                         margin: '0 0.5px', borderRadius: 1, cursor: 'pointer',
-                        minWidth: 8, opacity: 0.85, transition: 'opacity 0.1s, transform 0.1s',
+                        minWidth: 8, opacity: 0.85, transition: 'background 0.3s, opacity 0.1s, transform 0.1s',
                       }}
                       onMouseEnter={e => { e.target.style.opacity=1; e.target.style.transform='scaleY(1.4)' }}
                       onMouseLeave={e => { e.target.style.opacity=0.85; e.target.style.transform='scaleY(1)' }}

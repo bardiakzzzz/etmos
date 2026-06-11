@@ -15,7 +15,7 @@ export default function ScheduleView() {
     <div style={{ flex: 1, overflowY: 'auto', padding: '24px 32px', background: '#f7f8fa' }}>
       <div style={{ maxWidth: 900 }}>
         <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 20, fontWeight: 700 }}>Piano di manutenzione</div>
+          <div style={{ fontSize: 20, fontWeight: 700 }}>Piano di monitoraggio</div>
           <div style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>Generato dall'AI — basato su CDA, trend e priorità</div>
         </div>
 
