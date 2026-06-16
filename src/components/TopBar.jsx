@@ -26,7 +26,7 @@ export default function TopBar({ view, onNav, selectedTunnel }) {
         { id: 'map',      label: 'Mappa' },
         { id: 'detail',   label: selectedTunnel ? selectedTunnel.name : 'Dettaglio Galleria', disabled: !selectedTunnel },
         { id: 'schedule', label: 'Monitoraggio' },
-        { id: 'agent',    label: 'Agent' },
+        { id: 'agent',    label: 'Agente' },
       ].map(({ id, label, disabled }) => (
         <button key={id} onClick={() => !disabled && onNav(id)}
           disabled={disabled}

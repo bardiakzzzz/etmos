@@ -86,7 +86,7 @@ export default function CellModal({ cell, tunnel, timeIdx, onClose }) {
             <div style={{ flex: 1, padding: '16px' }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
                 🤖 Segmentazione AI — ARGOS · {MONTHS[selMonth]}
-                <span style={{ fontSize: 10, background: '#f3f4f6', borderRadius: 99, padding: '1px 7px', color: '#6b7280' }}>Confidence {75 + aiSev * 4}%</span>
+                <span style={{ fontSize: 10, background: '#f3f4f6', borderRadius: 99, padding: '1px 7px', color: '#6b7280' }}>Confidenza {75 + aiSev * 4}%</span>
               </div>
               <div style={{ borderRadius: 8, overflow: 'hidden', background: '#0f172a', position: 'relative' }}>
                 <img src={frameOverlayUrl(finalFrame)} alt={`Overlay ${MONTHS[selMonth]}`} style={{ width: '100%', height: 200, objectFit: 'cover', display: 'block' }}/>

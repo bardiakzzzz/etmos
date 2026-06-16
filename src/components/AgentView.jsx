@@ -222,7 +222,7 @@ function AgentContent({ id }) {
     case 'frejus_cells':
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <p>Ecco le immagini delle celle con <strong>difetti maggiori (MAJOR)</strong> rilevate durante l'ultima sessione di scansione:</p>
+          <p>Ecco le immagini delle celle con <strong>difetti critici (CRITICO)</strong> rilevate durante l'ultima sessione di scansione:</p>
           <div>
             <div style={{ fontSize: 11, fontWeight: 600, color: '#dc2626', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#dc2626' }}/>
@@ -250,10 +250,10 @@ function AgentContent({ id }) {
           <div style={{ background: '#fef2f2', borderRadius: 8, padding: '10px 14px', border: '1px solid #fecaca', fontSize: 13 }}>
             <strong style={{ color: '#b91c1c' }}>⚠ Riepilogo AI (ARGOS v2.1):</strong>
             <ul style={{ marginTop: 6, paddingLeft: 16, color: '#374151', display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <li>{majorFrames.length} frame classificati MAJOR con copertura media {(majorFrames.reduce((a, f) => a + f.coverage, 0) / majorFrames.length).toFixed(1)}%</li>
+              <li>{majorFrames.length} frame classificati CRITICO con copertura media {(majorFrames.reduce((a, f) => a + f.coverage, 0) / majorFrames.length).toFixed(1)}%</li>
               <li>Tipologia principale: crepe strutturali + infiltrazioni d'acqua</li>
               <li>Zone critiche concentrate nel tratto KP 2+100 – KP 4+800</li>
-              <li>Confidence media modello: 91%</li>
+              <li>Confidenza media modello: 91%</li>
             </ul>
           </div>
         </div>
