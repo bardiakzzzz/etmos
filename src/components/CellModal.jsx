@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { MONTHS, FRAMES, SEV_COLORS, SEV_BG, SEV_TEXT, SEV_LABELS, frameSeverity, frameOriginalUrl, frameOverlayUrl } from '../data'
 import SevBadge from './SevBadge'
 
@@ -27,6 +27,22 @@ export default function CellModal({ cell, tunnel, timeIdx, onClose }) {
   const pctDefect = finalFrame.coverage > 0 ? finalFrame.coverage.toFixed(1) : 0
 
   const DEFECT_OPTIONS = ['Crepa strutturale', 'Infiltrazione d\'acqua', 'Distacco', 'Eflorescenza', 'Deformazione', 'Nessun difetto']
+
+  // Smooth drag-to-scrub on the trajectory chart
+  const chartRef = useRef(null)
+  const dragging = useRef(false)
+  const pickMonth = useCallback((e) => {
+    const rect = chartRef.current.getBoundingClientRect()
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left
+    const idx = Math.round((x / rect.width) * (MONTHS.length - 1))
+    setSelMonth(Math.max(0, Math.min(MONTHS.length - 1, idx)))
+  }, [])
+  const onChartMouseDown = (e) => { dragging.current = true; pickMonth(e) }
+  const onChartMouseMove = (e) => { if (dragging.current) pickMonth(e) }
+  const onChartMouseUp = () => { dragging.current = false }
+  const onChartTouchStart = (e) => { dragging.current = true; pickMonth(e) }
+  const onChartTouchMove = (e) => { e.preventDefault(); pickMonth(e) }
+  const onChartTouchEnd = () => { dragging.current = false }
 
   function toggleDefect(d) {
     setDefectTypes(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d])
@@ -241,15 +257,24 @@ export default function CellModal({ cell, tunnel, timeIdx, onClose }) {
                 Traiettoria storica — questa cella
                 <span style={{ fontSize: 11, color: '#9ca3af', fontWeight: 400 }}>· clicca un punto per cambiare mese</span>
               </div>
-              <div style={{ position: 'relative', height: 56, userSelect: 'none' }}>
-                <svg viewBox="0 0 400 48" style={{ width: '100%', height: 48, display: 'block', cursor: 'pointer' }} preserveAspectRatio="none">
+              <div
+                ref={chartRef}
+                onMouseDown={onChartMouseDown}
+                onMouseMove={onChartMouseMove}
+                onMouseUp={onChartMouseUp}
+                onMouseLeave={onChartMouseUp}
+                onTouchStart={onChartTouchStart}
+                onTouchMove={onChartTouchMove}
+                onTouchEnd={onChartTouchEnd}
+                style={{ position: 'relative', height: 56, userSelect: 'none', cursor: 'col-resize' }}
+              >
+                <svg viewBox="0 0 400 48" style={{ width: '100%', height: 48, display: 'block', pointerEvents: 'none' }} preserveAspectRatio="none">
                   {SEV_COLORS.map((c, i) => <rect key={i} x="0" y={4+(4-i)*8} width="400" height="8" fill={c} opacity="0.07"/>)}
                   {[0,1,2,3,4].map(i => <line key={i} x1="0" y1={i*10+4} x2="400" y2={i*10+4} stroke="#e5e7eb" strokeWidth="0.8"/>)}
                   <polyline
                     points={MONTHS.map((_,i) => { const s=frameSeverity(frameAtMonth(i)); return `${i*44.4},${44-s*8}` }).join(' ')}
                     fill="none" stroke="#94a3b8" strokeWidth="1.5"
                   />
-                  {/* Human override dot on selected month */}
                   {reviewState === 'submitted' && humanSev !== null && (
                     <circle cx={selMonth*44.4} cy={44-humanSev*8} r="7" fill="none" stroke="#1d4ed8" strokeWidth="2" strokeDasharray="3,2"/>
                   )}
@@ -261,8 +286,7 @@ export default function CellModal({ cell, tunnel, timeIdx, onClose }) {
                     const cx=i*44.4, cy=44-displayS*8
                     const isSel=i===selMonth
                     return (
-                      <g key={i} onClick={()=>setSelMonth(i)} style={{cursor:'pointer'}}>
-                        <circle cx={cx} cy={cy} r="12" fill="transparent"/>
+                      <g key={i}>
                         {isSel && <circle cx={cx} cy={cy} r="8" fill={SEV_COLORS[displayS]} opacity="0.25"/>}
                         <circle cx={cx} cy={cy} r={isSel?5:4} fill={SEV_COLORS[displayS]} stroke={isSel?'#1d4ed8':'white'} strokeWidth={isSel?2:1.5}/>
                       </g>
@@ -271,7 +295,7 @@ export default function CellModal({ cell, tunnel, timeIdx, onClose }) {
                 </svg>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
                   {MONTHS.map((m,i) => (
-                    <span key={i} onClick={()=>setSelMonth(i)} style={{ fontSize: 9, cursor: 'pointer', color: i===selMonth?'#1d4ed8':'#9ca3af', fontWeight: i===selMonth?700:400 }}>{m}</span>
+                    <span key={i} style={{ fontSize: 9, cursor: 'pointer', color: i===selMonth?'#1d4ed8':'#9ca3af', fontWeight: i===selMonth?700:400 }}>{m}</span>
                   ))}
                 </div>
               </div>
