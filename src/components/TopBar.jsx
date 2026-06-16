@@ -1,3 +1,7 @@
+import { TUNNELS } from '../data'
+
+const criticalCount = TUNNELS.filter(t => t.cda >= 3).length
+
 export default function TopBar({ view, onNav, selectedTunnel }) {
   return (
     <div style={{
@@ -46,7 +50,7 @@ export default function TopBar({ view, onNav, selectedTunnel }) {
       <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#fee2e2', borderRadius: 8, padding: '5px 12px' }}>
           <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#dc2626' }}></div>
-          <span style={{ fontSize: 13, color: '#b91c1c', fontWeight: 600 }}>3 gallerie critiche</span>
+          <span style={{ fontSize: 13, color: '#b91c1c', fontWeight: 600 }}>{criticalCount} gallerie critiche</span>
         </div>
         <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#6b7280" strokeWidth="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" /></svg>

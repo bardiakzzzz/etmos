@@ -1,9 +1,9 @@
 import SevBadge from './SevBadge'
 import TrendChip from './TrendChip'
 
-export default function TunnelCard({ tunnel, selected, onClick }) {
+export default function TunnelCard({ tunnel, selected, onClick, onDoubleClick }) {
   return (
-    <div onClick={onClick} style={{
+    <div onClick={onClick} onDoubleClick={onDoubleClick} style={{
       padding: '14px 16px', cursor: 'pointer',
       borderBottom: '1px solid #f3f4f6',
       background: selected ? '#eff6ff' : '#fff',

@@ -58,7 +58,8 @@ export default function Sidebar({ selectedTunnel, onSelectTunnel, onOpenDetail }
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {filtered.map(t => (
           <TunnelCard key={t.id} tunnel={t} selected={selectedTunnel?.id === t.id}
-            onClick={() => onSelectTunnel(t)} />
+            onClick={() => onSelectTunnel(t)}
+            onDoubleClick={() => { onSelectTunnel(t); onOpenDetail() }} />
         ))}
       </div>
 
