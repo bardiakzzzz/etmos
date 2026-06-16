@@ -238,7 +238,7 @@ export default function CellModal({ cell, tunnel, timeIdx, onClose }) {
           <div style={{ padding: '12px 20px', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', gap: 24, alignItems: 'center' }}>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
-                Trajectoria storica — questa cella
+                Traiettoria storica — questa cella
                 <span style={{ fontSize: 11, color: '#9ca3af', fontWeight: 400 }}>· clicca un punto per cambiare mese</span>
               </div>
               <div style={{ position: 'relative', height: 56, userSelect: 'none' }}>
